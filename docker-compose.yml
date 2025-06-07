@@ -20,7 +20,7 @@ services:
     volumes:
       - ./api:/api
     healthcheck:
-      test: curl --fail http://api:8000/health-check || exit 1
+      test: curl --fail http://api:8000/health/check || exit 1
       retries: 3
       interval: 3s
       timeout: 10s
