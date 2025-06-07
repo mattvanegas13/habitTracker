@@ -1,0 +1,26 @@
+services:
+  ui:
+    build:
+      context: ./habit-tracker-ui
+    ports:
+      - "3000:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+    links:
+      - api
+    volumes:
+      - ./habit-tracker-ui/src/app:/habit-tracker-ui/src/app
+  api:
+    container_name: api
+    build: 
+      context: ./api/
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api:/api
+    healthcheck:
+      test: curl --fail http://api:8000/health-check || exit 1
+      retries: 3
+      interval: 3s
+      timeout: 10s
